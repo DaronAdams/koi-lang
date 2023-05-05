@@ -92,10 +92,46 @@ public class Scanner {
                 line++;
                 break;
 
+            case '"': string(); break;
+
             default:
-                Koi.error(line, "Unknown character.");
+                if (isDigit(c)) {
+                    number();
+                } else {
+                    Koi.error(line, "Unknown character.");
+                }
                 break;
         }
+    }
+
+    private void number() {
+        while (isDigit(peek())) advance();
+
+        // Look for a decimal
+        if (peek() == '.' && isDigit(peekNext())) {
+            advance();
+
+            while (isDigit(peek())) advance();
+        }
+
+        addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
+    }
+
+    private void string() {
+        while (peek() != '"' && !isAtEnd()) {
+            if (peek() == '\n') line++;
+            advance();
+        }
+        if (isAtEnd()) {
+            Koi.error(line, "Unterminated string.");
+        }
+
+        // Consuming the closing "
+        advance();
+
+        // Remove the quotes for the token
+        String value = source.substring(start + 1, current - 1);
+        addToken(STRING, value);
     }
 
     // Combination of advance and peek
@@ -110,5 +146,9 @@ public class Scanner {
     private char peek() {
         if (isAtEnd()) return '\0';
         return source.charAt(current);
+    }
+
+    private boolean isDigit(char c) {
+        return c >= '0' && c <= '9';
     }
 }
