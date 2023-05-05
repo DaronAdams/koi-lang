@@ -23,7 +23,7 @@ public class Scanner {
         keywords.put("else",   ELSE);
         keywords.put("false",  FALSE);
         keywords.put("for",    FOR);
-        keywords.put("fun",    FUN);
+        keywords.put("func",    FUNC);
         keywords.put("if",     IF);
         keywords.put("nil",    NIL);
         keywords.put("or",     OR);
@@ -136,10 +136,10 @@ public class Scanner {
         TokenType type = keywords.get(text);
         // Checking to see if the type a keyword
         // Or a user defined identifier
-        if (type == null) type = IDENTIFIER;
+        if (type == null) {
+            type = IDENTIFIER;
+        }
         addToken(type);
-
-        addToken(IDENTIFIER);
     }
 
     // Responsible for creating number tokens
