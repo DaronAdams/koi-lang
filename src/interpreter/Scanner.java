@@ -14,6 +14,29 @@ public class Scanner {
     private int current = 0;
     private int line = 1;
 
+    private static final Map<String, TokenType> keywords;
+
+    static {
+        keywords = new HashMap<>();
+        keywords.put("and",    AND);
+        keywords.put("class",  CLASS);
+        keywords.put("else",   ELSE);
+        keywords.put("false",  FALSE);
+        keywords.put("for",    FOR);
+        keywords.put("fun",    FUN);
+        keywords.put("if",     IF);
+        keywords.put("nil",    NIL);
+        keywords.put("or",     OR);
+        keywords.put("print",  PRINT);
+        keywords.put("return", RETURN);
+        keywords.put("super",  SUPER);
+        keywords.put("this",   THIS);
+        keywords.put("true",   TRUE);
+        keywords.put("var",    LET);
+        keywords.put("const", CONST);
+        keywords.put("while",  WHILE);
+    }
+
 
     Scanner(String source) {
         this.source = source;
@@ -97,6 +120,8 @@ public class Scanner {
             default:
                 if (isDigit(c)) {
                     number();
+                } else if (isAlpha(c)) {
+                    identifier();
                 } else {
                     Koi.error(line, "Unknown character.");
                 }
@@ -104,6 +129,20 @@ public class Scanner {
         }
     }
 
+    private void identifier() {
+        while (isAlphaNumeric(peek())) advance();
+
+        String text = source.substring(start, current);
+        TokenType type = keywords.get(text);
+        // Checking to see if the type a keyword
+        // Or a user defined identifier
+        if (type == null) type = IDENTIFIER;
+        addToken(type);
+
+        addToken(IDENTIFIER);
+    }
+
+    // Responsible for creating number tokens
     private void number() {
         while (isDigit(peek())) advance();
 
@@ -117,6 +156,7 @@ public class Scanner {
         addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
     }
 
+    // Responsible for creating string tokens
     private void string() {
         while (peek() != '"' && !isAtEnd()) {
             if (peek() == '\n') line++;
@@ -143,12 +183,30 @@ public class Scanner {
         return true;
     }
 
+    // Look ahead to the next character
     private char peek() {
         if (isAtEnd()) return '\0';
         return source.charAt(current);
     }
 
+    // Look ahead to the next-next character
+    private char peekNext() {
+        if (current + 1 >= source.length()) return '\0';
+        return source.charAt(current + 1);
+    }
+
+    // Return whether the character is between a-z A-Z or a underscore
+    private boolean isAlpha(char c) {
+        return (c >= 'a' && c <= 'z') ||
+                (c >= 'A' && c <= 'Z') ||
+                c == '_';
+    }
+
     private boolean isDigit(char c) {
         return c >= '0' && c <= '9';
+    }
+
+    private boolean isAlphaNumeric(char c) {
+        return isAlpha(c) || isDigit(c);
     }
 }
