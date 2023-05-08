@@ -9,8 +9,8 @@ Dynamically typed scripting language based on python, rust, and javascript
 
 - Classes
 - Functions
-- Number and String data types
-- Custom Data Structures
-- Standard Library
-
-
+- Error handling
+- Global variables
+- Custom data structures
+- And more
+ 
