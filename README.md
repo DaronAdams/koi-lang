@@ -14,3 +14,11 @@ Dynamically typed scripting language based on python, rust, and javascript
 - Custom data structures
 - And more
  
+```
+// Syntax examples for a .koi file
+print "koi";
+print true;
+print "false";
+print 20-100;
+
+```
