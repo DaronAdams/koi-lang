@@ -23,7 +23,7 @@ public class Scanner {
         keywords.put("else",   ELSE);
         keywords.put("false",  FALSE);
         keywords.put("for",    FOR);
-        keywords.put("func",    FUNC);
+        keywords.put("func",    FUN);
         keywords.put("if",     IF);
         keywords.put("nil",    NIL);
         keywords.put("or",     OR);
@@ -32,7 +32,7 @@ public class Scanner {
         keywords.put("super",  SUPER);
         keywords.put("this",   THIS);
         keywords.put("true",   TRUE);
-        keywords.put("var",    LET);
+        keywords.put("var",    VAR);
         keywords.put("const", CONST);
         keywords.put("while",  WHILE);
     }
