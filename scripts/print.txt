@@ -1,3 +1,0 @@
-print "two";
-print false;
-print 3 - 10;
