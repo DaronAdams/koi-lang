@@ -1,0 +1,2 @@
+print "hi" or 2;
+print "hi" and "bye";
