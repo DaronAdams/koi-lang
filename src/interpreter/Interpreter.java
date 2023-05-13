@@ -1,6 +1,7 @@
 package interpreter;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Interpreter implements Expr.Visitor<Object>,
                                     Stmt.Visitor<Void>{
@@ -223,5 +224,29 @@ public class Interpreter implements Expr.Visitor<Object>,
         }
 
         return null;
+    }
+
+    @Override
+    public Object visitCallExpr(Expr.Call expr) {
+        Object callee = evaluate(expr.callee);
+
+        List<Object> arguments = new ArrayList<Object>();
+        for (Expr argument : expr.arguments) {
+            arguments.add(evaluate(argument));
+        }
+
+        if (!(callee instanceof KoiCallable)) {
+            throw new RuntimeError(expr.paren,
+                    "Can only call functions and classes.");
+        }
+
+        KoiCallable function = (KoiCallable)callee;
+
+        if (arguments.size() != function.arity()) {
+            throw new RuntimeError(expr.paren, "Expected "
+            + function.arity() + " arguments, got " + arguments.size() + ".");
+        }
+
+        return function.call(this, arguments);
     }
 }
