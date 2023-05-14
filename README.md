@@ -11,14 +11,22 @@ Dynamically typed scripting language based on python, rust, and javascript
 - Functions
 - Error handling
 - Global variables
-- Custom data structures
-- And more
+- Conditionals
+- Looping
  
 ```
-// Syntax examples for a .koi file
+// ------------ Printing
 print "koi";
 print true;
 print "false";
 print 20-100;
 
+// ------------ Variables
+var koi = "koi";
+var a = 2;
+
+// ------------ Functions
+func add(a, b) {
+    return a + b;
+}
 ```
