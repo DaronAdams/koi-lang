@@ -13,7 +13,9 @@ Dynamically typed scripting language based on python, rust, and javascript
 - Global variables
 - Conditionals
 - Looping
- 
+
+
+## Syntax Examples 
 ```
 // ------------ Printing
 print "koi";
