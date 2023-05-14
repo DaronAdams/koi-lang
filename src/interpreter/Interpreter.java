@@ -6,7 +6,28 @@ import java.util.ArrayList;
 public class Interpreter implements Expr.Visitor<Object>,
                                     Stmt.Visitor<Void>{
 
+    final Environment globals = new Environment();
     private Environment environment = new Environment();
+
+    Interpreter() {
+        globals.define("clock", new KoiCallable() {
+            @Override
+            public int arity() {
+                return 0;
+            }
+
+            @Override
+            public Object call(Interpreter interpreter, List<Object> arguments) {
+                return (double)System.currentTimeMillis() / 1000.0;
+            }
+
+            @Override
+            public String toString() {
+                return "<native fn>";
+            }
+        });
+    }
+
 
     void interpret(List<Stmt> statements) {
         try {
@@ -138,6 +159,13 @@ public class Interpreter implements Expr.Visitor<Object>,
     @Override
     public Void visitExpressionStmt(Stmt.Expression stmt) {
         evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitFunctionStmt(Stmt.Function stmt) {
+        KoiFunction function = new KoiFunction(stmt);
+        environment.define(stmt.name.lexeme, function);
         return null;
     }
 

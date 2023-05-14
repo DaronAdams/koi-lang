@@ -1,0 +1,9 @@
+func test(n) {
+  var temp = 1;
+  for (var i = 0; i < n; i = i + temp) {
+      print i;
+  }
+}
+
+test(10);
+
